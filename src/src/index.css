@@ -1,0 +1,176 @@
+/* ─── Google Fonts — JetBrains Mono (terminal / forensic console) ── */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap");
+
+@import "tailwindcss";
+
+/* ─── Runtime Theme Variables ─────────────────────────────────────
+   Light is the default; [data-theme="dark"] on <html> switches to
+   the forensic-console palette. Tailwind utilities resolve these at
+   runtime via `@theme inline`, so toggling the attribute re-themes
+   the whole app without a reload.                                   */
+:root {
+  --bg:     #f6f8f7;
+  --panel:  #ffffff;
+  --panel2: #eef2f0;
+  --line:   #dde5e1;
+  --line2:  #c3d0ca;
+  --accent: #047857;  /* emerald-700 — legible accent text on light */
+  --ink:    #08120e;
+  --body:   #2c4238;
+  --muted:  #5a6f66;
+  --danger: #dc2626;
+  --warn:   #b45309;
+  --glow:        0 0 0 rgba(0, 0, 0, 0);
+  --glow-alert:  0 0 0 rgba(0, 0, 0, 0);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg:     #050807;
+  --panel:  #0a100d;
+  --panel2: #0d1512;
+  --line:   #17251e;
+  --line2:  #23382e;
+  --accent: #00ff9c;
+  --ink:    #f2fff9;
+  --body:   #a9c2b8;
+  --muted:  #7e948b;
+  --danger: #ff5c5c;
+  --warn:   #ffb454;
+  --glow:       0 0 10px rgba(0, 255, 156, 0.45);
+  --glow-alert: 0 0 10px rgba(255, 92, 92, 0.4);
+  color-scheme: dark;
+}
+
+/* Map runtime vars to Tailwind color utilities (bg-panel, text-neon…) */
+@theme inline {
+  --color-void:    var(--bg);
+  --color-panel:   var(--panel);
+  --color-panel2:  var(--panel2);
+  --color-line:    var(--line);
+  --color-line2:   var(--line2);
+  --color-neon:    var(--accent);
+  --color-neondim: var(--accent);
+  --color-bright:  var(--ink);
+  --color-fog:     var(--body);
+  --color-dim:     var(--muted);
+  --color-alert:   var(--danger);
+  --color-warn:    var(--warn);
+
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ─── Base Reset ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: var(--bg);
+  color: var(--body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* ─── Dark-only texture: terminal grid + CRT scanlines ──────────── */
+[data-theme="dark"] body {
+  background-image:
+    linear-gradient(rgba(0, 255, 156, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 156, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 255, 156, 0.028) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: screen;
+}
+
+/* ─── Theme-aware neon glow ─────────────────────────────────────── */
+.glow {
+  filter: drop-shadow(var(--glow));
+}
+.glow-alert {
+  filter: drop-shadow(var(--glow-alert));
+}
+
+/* ─── Focus / Selection / Scrollbar ─────────────────────────────── */
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  color: var(--ink);
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line2); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ─── Helpers ───────────────────────────────────────────────────── */
+.duration-900 { transition-duration: 900ms; }
+
+/* ─── Print / PDF export ────────────────────────────────────────── */
+@media print {
+  /* Force the light, ink-friendly palette regardless of active theme */
+  :root,
+  [data-theme="dark"] {
+    --bg:     #ffffff;
+    --panel:  #ffffff;
+    --panel2: #f4f6f5;
+    --line:   #d5ddd9;
+    --line2:  #b9c6c0;
+    --accent: #047857;
+    --ink:    #000000;
+    --body:   #1a1a1a;
+    --muted:  #4a4a4a;
+    --danger: #b91c1c;
+    --warn:   #92400e;
+    --glow:       0 0 0 rgba(0, 0, 0, 0);
+    --glow-alert: 0 0 0 rgba(0, 0, 0, 0);
+  }
+
+  /* Kill dark-only texture + scanlines */
+  [data-theme="dark"] body { background-image: none; }
+  [data-theme="dark"] body::before { display: none; }
+
+  body {
+    background: #ffffff;
+    color: #1a1a1a;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .glow,
+  .glow-alert { filter: none; }
+
+  /* Hide app chrome + interactive controls */
+  header,
+  footer,
+  .no-print { display: none !important; }
+
+  main { padding-top: 0 !important; }
+
+  section { break-inside: avoid; page-break-inside: avoid; }
+}

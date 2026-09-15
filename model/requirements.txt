@@ -1,0 +1,8 @@
+torch
+torchvision
+scikit-learn
+fastapi
+uvicorn
+python-multipart
+pillow
+streamlit

@@ -1,0 +1,8 @@
+﻿venv/
+model/venv/
+__pycache__/
+*.pyc
+node_modules/
+dataset/
+.env.local
+*.pt

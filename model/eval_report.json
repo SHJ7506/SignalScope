@@ -1,0 +1,23 @@
+{
+  "test_dir": "/home/claude/dataset_subset/test",
+  "num_samples": 2000,
+  "roc_auc": 0.9339,
+  "macro_f1": 0.8544,
+  "accuracy": 0.8545,
+  "false_positive_rate": 0.173,
+  "threshold": 0.5,
+  "confusion_matrix": [
+    [
+      827,
+      173
+    ],
+    [
+      118,
+      882
+    ]
+  ],
+  "class_to_idx": {
+    "FAKE": 0,
+    "REAL": 1
+  }
+}

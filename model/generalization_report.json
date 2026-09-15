@@ -1,0 +1,5 @@
+{
+  "generatorName": "Midjourney",
+  "auc": 0.9663,
+  "description": "Evaluated on 10660 held-out images from 'Midjourney', a generator never seen during training. This measures true generalization rather than memorization of one generator's style."
+}

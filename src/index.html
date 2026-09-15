@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>SignalScope — AI Image Forensic Analysis</title>
+    <meta
+      name="description"
+      content="SignalScope detects whether an image is likely AI-generated or real using probabilistic analysis, evidence mapping, and robustness testing."
+    />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="SignalScope — AI Image Forensic Analysis" />
+    <meta
+      property="og:description"
+      content="Upload an image to analyse whether it is likely AI-generated or real."
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Favicon placeholder -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Apply saved theme before first paint to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("signalscope-theme");
+          document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
